@@ -1,4 +1,4 @@
-FROM python:3.12-slim AS base
+FROM python:3.14-slim AS base
 
 ARG BICEP_VERSION=0.30.23
 ARG TERRAFORM_VERSION=1.9.8
