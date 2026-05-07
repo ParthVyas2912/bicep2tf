@@ -49,6 +49,12 @@ jobs:
 
       - name: Validate generated terraform fixtures
         run: |
-          for d in tests/cases/*/expected; do
+          shopt -s nullglob
+          fixtures=(tests/cases/*/expected)
+          if [ ${#fixtures[@]} -eq 0 ]; then
+            echo "No tests/cases/*/expected fixtures present; smoke test in pytest covers end-to-end validation."
+            exit 0
+          fi
+          for d in "${fixtures[@]}"; do
             (cd "$d" && terraform init -backend=false && terraform validate)
           done
