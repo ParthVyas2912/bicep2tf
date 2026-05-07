@@ -1,0 +1,6 @@
+- arm_type: Microsoft.Insights/components
+  tf_type: azurerm_application_insights
+  attribute_map:
+    properties.Application_Type: application_type
+    properties.WorkspaceResourceId: workspace_id
+    properties.DisableLocalAuth: local_authentication_disabled

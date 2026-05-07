@@ -1,0 +1,19 @@
+- arm_type: Microsoft.OperationalInsights/workspaces
+  tf_type: azurerm_log_analytics_workspace
+  attribute_map:
+    properties.sku.name: sku
+    properties.retentionInDays: retention_in_days
+
+- arm_type: Microsoft.OperationsManagement/solutions
+  tf_type: azurerm_log_analytics_solution
+  attribute_map: {}
+  required_defaults:
+    solution_name: 'var.name'
+    workspace_name: 'var.workspace_name'
+    workspace_resource_id: 'var.workspace_resource_id'
+  required_blocks:
+    plan:
+      publisher: '"Microsoft"'
+      product: 'format("OMSGallery/%s", var.name)'
+  drop_attributes:
+    - name

@@ -1,0 +1,53 @@
+- arm_type: Microsoft.Web/serverfarms
+  tf_type: azurerm_service_plan
+  attribute_map:
+    properties.reserved: reserved
+    sku.name: sku_name
+    kind: kind
+  required_defaults:
+    sku_name: '"Y1"'
+    os_type: '"Linux"'
+  drop_attributes:
+    - kind
+    - reserved
+
+- arm_type: Microsoft.Web/sites
+  tf_type: azurerm_linux_function_app
+  attribute_map:
+    properties.serverFarmId: service_plan_id
+    properties.httpsOnly: https_only
+    properties.virtualNetworkSubnetId: virtual_network_subnet_id
+  required_defaults:
+    storage_account_name: '"placeholder"  # TODO: bicep2tf—review'
+    storage_account_access_key: 'null  # TODO: bicep2tf—review (use storage_uses_managed_identity instead)'
+  required_blocks:
+    site_config: {}
+  notes: |
+    Heuristic: defaults to Linux function app. For Flex Consumption, the
+    converter switches to azapi_resource (see modules/api/main.tf in examples).
+    site_config{} is required by TF schema but not modeled here — the renderer
+    auto-emits an empty site_config block when none is present.
+
+- arm_type: Microsoft.Web/sites/config
+  tf_type: null
+  inline_into_parent: true
+  notes: "Inlined into parent azurerm_linux_*_app's app_settings / site_config."
+
+- arm_type: Microsoft.Web/sites/extensions
+  tf_type: null
+  notes: "Deployment extensions (e.g. MSDeploy) belong in CI, not Terraform."
+
+- arm_type: Microsoft.Web/sites/slots
+  tf_type: azurerm_linux_web_app_slot
+  attribute_map: {}
+  required_defaults:
+    app_service_id: 'null  # TODO: bicep2tf—parent app id required'
+  required_blocks:
+    site_config: {}
+  drop_attributes:
+    - location
+    - resource_group_name
+
+- arm_type: Microsoft.Web/sites/slots/config
+  tf_type: null
+  inline_into_parent: true

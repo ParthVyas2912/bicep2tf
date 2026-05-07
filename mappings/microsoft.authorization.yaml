@@ -1,0 +1,7 @@
+- arm_type: Microsoft.Authorization/roleAssignments
+  tf_type: azurerm_role_assignment
+  attribute_map:
+    properties.roleDefinitionId: role_definition_id
+    properties.principalId: principal_id
+    properties.principalType: principal_type
+    properties.scope: scope

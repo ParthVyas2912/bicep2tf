@@ -1,0 +1,3 @@
+- arm_type: Microsoft.ManagedIdentity/userAssignedIdentities
+  tf_type: azurerm_user_assigned_identity
+  attribute_map: {}

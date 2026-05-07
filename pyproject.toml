@@ -1,0 +1,64 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "bicep2tf"
+version = "0.1.0"
+description = "Convert Azure Bicep to Terraform — module-aware, AVM-aware, validation-checked."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Parth Vyas" }]
+keywords = ["azure", "bicep", "terraform", "iac", "converter"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: System :: Systems Administration",
+]
+dependencies = [
+  "click>=8.1",
+  "pyyaml>=6.0",
+  "rich>=13.7",
+  "jinja2>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-snapshot>=0.9",
+  "ruff>=0.5",
+  "mypy>=1.10",
+  "pre-commit>=3.7",
+]
+
+[project.scripts]
+bicep2tf = "bicep2tf.cli:main"
+
+[project.urls]
+Homepage      = "https://github.com/ParthVyas2912/bicep2tf"
+Documentation = "https://github.com/ParthVyas2912/bicep2tf#readme"
+Issues        = "https://github.com/ParthVyas2912/bicep2tf/issues"
+Changelog     = "https://github.com/ParthVyas2912/bicep2tf/blob/main/CHANGELOG.md"
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "N"]
+# Tests construct large fixture strings/dicts that are easier to read on one line.
+per-file-ignores = { "tests/*" = ["E501"] }
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = true
+# `strict = true` is a future-work goal — see CONTRIBUTING.md.
+
+[tool.pytest.ini_options]
+addopts = "-ra"
+testpaths = ["tests"]

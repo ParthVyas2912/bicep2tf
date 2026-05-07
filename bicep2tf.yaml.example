@@ -1,0 +1,49 @@
+# Default bicep2tf project configuration. Copy to bicep2tf.yaml and edit.
+
+# Output directory (relative to the input file by default).
+output: ./terraform-output
+
+# Module grouping strategy.
+#   bicep   - one TF module per Bicep module (recommended, mirrors source layout)
+#   service - group resources by Azure service category (identity, networking, ...)
+#   flat    - everything in the root module
+layout: bicep
+
+# Terraform provider version constraints.
+providers:
+  azurerm: "~> 4.0"
+  random:  "~> 3.6"
+
+# How to handle Bicep references to AVM (Azure Verified Modules):
+#   reference - rewrite to the equivalent Azure/avm-res-* Terraform module
+#   expand    - inline every underlying resource (verbose but explicit)
+#   skip      - emit a TODO and let the user wire it up
+avm_mode: reference
+
+# Fail the run if any unmapped resource type or TODO marker is emitted.
+strict: false
+
+# Run `terraform fmt -recursive` and `terraform validate` after generation.
+post_validate: true
+
+# Emit `import {}` blocks (Terraform 1.5+) for resources that already exist.
+emit_import_blocks: false
+
+# Naming overrides applied to generated symbols.
+naming:
+  # Reserved abbreviation overrides (camelCase -> snake_case shortenings).
+  abbreviations:
+    vNet: vnet
+  # Maximum length for generated symbol names. Longer names are sha-truncated.
+  max_symbol_length: 60
+
+# Per-resource-type rule overrides. Keys are ARM resource types.
+rules:
+  Microsoft.Web/sites:
+    # Inline child config types into the parent web app.
+    inline_children:
+      - Microsoft.Web/sites/config
+
+# Tags merged into every generated resource.
+tags:
+  managed-by: bicep2tf

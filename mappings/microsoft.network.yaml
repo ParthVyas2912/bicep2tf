@@ -1,0 +1,51 @@
+- arm_type: Microsoft.Network/virtualNetworks
+  tf_type: azurerm_virtual_network
+  attribute_map:
+    properties.addressSpace.addressPrefixes: address_space
+
+- arm_type: Microsoft.Network/virtualNetworks/subnets
+  tf_type: azurerm_subnet
+  attribute_map:
+    properties.addressPrefix: address_prefixes
+    properties.privateEndpointNetworkPolicies: private_endpoint_network_policies
+  required_defaults:
+    virtual_network_name: 'var.virtual_network_name'
+  drop_attributes:
+    - location
+  wrap_list_attributes:
+    - address_prefixes
+
+- arm_type: Microsoft.Network/virtualNetworks/virtualNetworkPeerings
+  tf_type: azurerm_virtual_network_peering
+  attribute_map:
+    properties.allowVirtualNetworkAccess: allow_virtual_network_access
+    properties.allowForwardedTraffic: allow_forwarded_traffic
+    properties.allowGatewayTransit: allow_gateway_transit
+    properties.useRemoteGateways: use_remote_gateways
+  required_defaults:
+    virtual_network_name: 'var.virtual_network_name'
+    remote_virtual_network_id: 'var.remote_virtual_network_id'
+
+- arm_type: Microsoft.Network/privateEndpoints
+  tf_type: azurerm_private_endpoint
+  attribute_map:
+    properties.subnet.id: subnet_id
+  required_blocks:
+    private_service_connection:
+      name: 'var.name'
+      private_connection_resource_id: 'null  # TODO: bicep2tf—review'
+      is_manual_connection: 'false'
+
+- arm_type: Microsoft.Network/privateDnsZones
+  tf_type: azurerm_private_dns_zone
+  attribute_map: {}
+
+- arm_type: Microsoft.Network/networkSecurityGroups
+  tf_type: azurerm_network_security_group
+  attribute_map: {}
+
+- arm_type: Microsoft.Network/publicIPAddresses
+  tf_type: azurerm_public_ip
+  attribute_map:
+    sku.name: sku
+    properties.publicIPAllocationMethod: allocation_method

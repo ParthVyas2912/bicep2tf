@@ -1,0 +1,10 @@
+- arm_type: Microsoft.Resources/resourceGroups
+  tf_type: azurerm_resource_group
+  attribute_map:
+    name: name
+    location: location
+
+- arm_type: Microsoft.Resources/deployments
+  tf_type: null
+  notes: "Bicep modules — handled by the converter, not as a TF resource."
+  inline_into_parent: true

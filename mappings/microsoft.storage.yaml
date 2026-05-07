@@ -1,0 +1,36 @@
+- arm_type: Microsoft.Storage/storageAccounts
+  tf_type: azurerm_storage_account
+  attribute_map:
+    sku.name: account_replication_type
+    kind: account_kind
+    properties.accessTier: access_tier
+    properties.minimumTlsVersion: min_tls_version
+    properties.allowBlobPublicAccess: allow_nested_items_to_be_public
+    properties.allowSharedKeyAccess: shared_access_key_enabled
+    properties.publicNetworkAccess: public_network_access_enabled
+    properties.dnsEndpointType: dns_endpoint_type
+  required_defaults:
+    account_tier: '"Standard"'
+    account_replication_type: '"LRS"'
+
+- arm_type: Microsoft.Storage/storageAccounts/blobServices
+  tf_type: null
+  inline_into_parent: true
+
+- arm_type: Microsoft.Storage/storageAccounts/blobServices/containers
+  tf_type: azurerm_storage_container
+  attribute_map:
+    properties.publicAccess: container_access_type
+
+- arm_type: Microsoft.Storage/storageAccounts/managementPolicies
+  tf_type: azurerm_storage_management_policy
+  attribute_map: {}
+
+- arm_type: Microsoft.Storage/storageAccounts/fileServices
+  tf_type: null
+  inline_into_parent: true
+
+- arm_type: Microsoft.Storage/storageAccounts/fileServices/shares
+  tf_type: azurerm_storage_share
+  attribute_map:
+    properties.shareQuota: quota

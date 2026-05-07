@@ -1,0 +1,39 @@
+# AVM (Azure Verified Modules) Bicep → Terraform module bridge.
+# Each entry maps a Bicep AVM module reference to its equivalent
+# Terraform AVM module on the registry.
+
+- bicep_ref: br/public:avm/res/managed-identity/user-assigned-identity
+  tf_source: Azure/avm-res-managedidentity-userassignedidentity/azurerm
+  tf_version: "~> 0.3"
+
+- bicep_ref: br/public:avm/res/web/serverfarm
+  tf_source: Azure/avm-res-web-serverfarm/azurerm
+  tf_version: "~> 0.2"
+
+- bicep_ref: br/public:avm/res/web/site
+  tf_source: Azure/avm-res-web-site/azurerm
+  tf_version: "~> 0.10"
+
+- bicep_ref: br/public:avm/res/storage/storage-account
+  tf_source: Azure/avm-res-storage-storageaccount/azurerm
+  tf_version: "~> 0.2"
+
+- bicep_ref: br/public:avm/res/insights/component
+  tf_source: Azure/avm-res-insights-component/azurerm
+  tf_version: "~> 0.1"
+
+- bicep_ref: br/public:avm/res/operational-insights/workspace
+  tf_source: Azure/avm-res-operationalinsights-workspace/azurerm
+  tf_version: "~> 0.4"
+
+- bicep_ref: br/public:avm/res/network/virtual-network
+  tf_source: Azure/avm-res-network-virtualnetwork/azurerm
+  tf_version: "~> 0.5"
+
+- bicep_ref: br/public:avm/res/network/private-endpoint
+  tf_source: Azure/avm-res-network-privateendpoint/azurerm
+  tf_version: "~> 0.2"
+
+- bicep_ref: br/public:avm/res/key-vault/vault
+  tf_source: Azure/avm-res-keyvault-vault/azurerm
+  tf_version: "~> 0.9"

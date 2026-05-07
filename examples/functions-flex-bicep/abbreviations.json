@@ -1,0 +1,11 @@
+{
+  "resourcesResourceGroups": "rg-",
+  "storageStorageAccounts": "st",
+  "webSitesFunctions": "func-",
+  "webServerFarms": "plan-",
+  "insightsComponents": "appi-",
+  "operationalInsightsWorkspaces": "log-",
+  "managedIdentityUserAssignedIdentities": "id-",
+  "networkVirtualNetworks": "vnet-",
+  "networkPrivateEndpoints": "pe-"
+}
